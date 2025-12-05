@@ -335,33 +335,6 @@ Gemini AI evaluates based on:
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-3. **Commit your changes**
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
-4. **Push to the branch**
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-5. **Open a Pull Request**
-
-### Development Guidelines
-- Follow PEP 8 style guide for Python code
-- Add comments for complex logic
-- Update README if adding new features
-- Test thoroughly before submitting PR
-
----
-
 ## 🙏 Acknowledgments
 
 - **Google Gemini AI** - For powerful language understanding
@@ -377,14 +350,3 @@ Contributions are welcome! Here's how you can help:
 **Anas Shaikh** - 2002shaikhanass@gmail.com
 
 ---
-
-## 🌟 Show Your Support
-
-If you found this project helpful, please give it a ⭐️ on GitHub!
-
----
-
-<div align="center">
-  <p>Made with ❤️ by [Your Name]</p>
-  <p>© 2024 Resume Analyzer. All rights reserved.</p>
-</div>
