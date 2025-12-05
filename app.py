@@ -5,13 +5,20 @@ import plotly.graph_objects as go
 import requests
 import json
 import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
+# Load secrets (works both locally and on Streamlit Cloud)
+try:
+    # Try Streamlit secrets first (production)
+    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+    N8N_WEBHOOK_URL = st.secrets["N8N_WEBHOOK_URL"]
+except:
+    # Fallback to .env for local development
+    from dotenv import load_dotenv
+    load_dotenv()
+    GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+    N8N_WEBHOOK_URL = os.getenv('N8N_WEBHOOK_URL')
 
 # Configure Gemini with the working model
-genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
+genai.configure(api_key=GEMINI_API_KEY)
 
 # Page config
 st.set_page_config(page_title="Resume Analyzer", page_icon="📄", layout="wide")
@@ -102,7 +109,7 @@ def create_skills_chart(matching, missing):
 
 def send_to_n8n(data):
     """Send data to n8n webhook"""
-    webhook_url = os.getenv('N8N_WEBHOOK_URL')
+    webhook_url = N8N_WEBHOOK_URL
     if webhook_url:
         try:
             response = requests.post(webhook_url, json=data, timeout=10)
@@ -219,28 +226,27 @@ if st.button("🔍 Analyze", type="primary", use_container_width=True):
 
 # Sidebar
 with st.sidebar:
-    st.header("ℹ️ How to Use")
+    st.header("")
     st.markdown("""
-    1. Upload candidate's resume (PDF)
-    2. Paste the job description
-    3. Click 'Analyze' button
-    4. View score, charts, and details
-    5. If score > 75, email sent via n8n
-    
     **Score Guide:**
     - 75-100: Excellent Match ✅
     - 50-74: Good Match ⚠️
     - 0-49: Poor Match ❌
+    **💡 Why Use Resume Analyzer?**
+    - **Instant Comparison:** Quickly compares resumes against JD requirements.
+    - **Highlights Key Skills & Experience:** Shows top candidate strengths at a glance.
+    - **Saves Time:** Automates notifications for recruiters, reducing manual work.
+    - **Data-Driven Hiring:** Makes hiring decisions precise and objective.
     """)
     
     st.markdown("---")
     st.markdown("**Status:**")
-    if os.getenv('GEMINI_API_KEY'):
+    if GEMINI_API_KEY:
         st.success("✅ Gemini API Connected")
     else:
-        st.error("❌ Add GEMINI_API_KEY to .env")
-    
-    if os.getenv('N8N_WEBHOOK_URL'):
+        st.error("❌ Add GEMINI_API_KEY to secrets")
+
+    if N8N_WEBHOOK_URL:
         st.success("✅ n8n Webhook Ready")
     else:
-        st.warning("⚠️ Add N8N_WEBHOOK_URL to .env")
+        st.warning("⚠️ Add N8N_WEBHOOK_URL to secrets")
